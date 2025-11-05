@@ -151,7 +151,7 @@
 		transition: transform 0.15s, color 0.15s;
 	}
 	.info-box a:hover {
-		color: #4cd137;
+		color: #4fc3f7;
 		transform: translateY(-1px);
 	}
 

@@ -1,6 +1,7 @@
 <script>
   import Sidebar from './lib/Sidebar.svelte';
   import Contact from './lib/Contact.svelte';
+  import About from './lib/About.svelte';
 </script>
 
 <div class="hbox-container">
@@ -8,21 +9,26 @@
 
   <div class="content-container">
     <div class="card">
+      <About />
+    </div>
+    <div class="card">
       <Contact />
     </div>
   </div>
 </div>
 
 <style>
-  /* Content container leaves space for the fixed sidebar */
+
   .content-container {
     margin-left: 280px; /* match the sidebar width */
     flex: 1 1 auto;
     padding: 2rem;
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     box-sizing: border-box;
+    gap: 2rem;
   }
 
   .card {
