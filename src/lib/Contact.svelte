@@ -12,7 +12,7 @@
 		email = '';
 		message = '';
 
-		setTimeout(() => (success = false), 5000);
+		setTimeout(() => (success = false), 3000);
 	}
 </script>
 
@@ -37,10 +37,12 @@
 		<!-- Contact info boxes -->
 		<div class="contact-info">
 			<div class="info-box">
-				<strong>Email:</strong> <a href="mailto:xpolion@example.com">xpolion2005@example.com</a>
+				<span><strong>Email:</strong></span>
+				<a href="mailto:xpolion2005@example.com">xpolion2005@example.com</a>
 			</div>
 			<div class="info-box">
-				<strong>Phone:</strong> <a href="tel:+1234567890">+123 456 7890</a>
+				<span><strong>Phone:</strong></span>
+				<a href="tel:+1234567890">+123 456 7890</a>
 			</div>
 		</div>
 	</div>
@@ -54,8 +56,11 @@
 			<textarea placeholder="Your Message" bind:value={message} required></textarea>
 			<button type="submit">Send</button>
 		</form>
+
 		{#if success}
-			<p class="success-msg">Message sent! I’ll get back to you soon.</p>
+			<div class="success-popup">
+				<p>Message sent! I’ll get back to you soon.</p>
+			</div>
 		{/if}
 	</div>
 </section>
@@ -64,7 +69,7 @@
 	.contact-section {
 		display: flex;
 		flex-direction: column;
-		gap: 1.5rem;
+		gap: 2rem;
 		padding: 2rem;
 		background: #1a1625;
 		border: 2px solid rgba(255,255,255,0.08);
@@ -92,7 +97,7 @@
 		margin-bottom: 0.5rem;
 	}
 
-	/* Social icons in a line */
+	/* Social icons in a row */
 	.socials-line {
 		display: flex;
 		gap: 0.75rem;
@@ -121,20 +126,23 @@
 	/* Contact info boxes */
 	.contact-info {
 		display: flex;
-		flex-direction: column;
-		gap: 1rem; /* increase gap between boxes */
+		flex-direction: row;
+		gap: 1rem;
+		flex-wrap: wrap;
 	}
 
 	.info-box {
+		flex: 1 1 45%; /* ensure equal width */
 		display: flex;
-		align-items: center;
-		gap: 0.5rem;
+		flex-direction: column; /* stack text inside */
+		gap: 4px;
 		background: #2b2440;
 		border: 2px solid rgba(255,255,255,0.08);
 		box-shadow: 3px 3px 0 #000;
-		padding: 12px 16px; /* increased padding */
+		padding: 16px;
 		border-radius: 6px;
 		font-size: 10px;
+		word-break: break-word;
 	}
 
 	.info-box a {
@@ -142,10 +150,16 @@
 		text-decoration: none;
 		transition: transform 0.15s, color 0.15s;
 	}
-
 	.info-box a:hover {
 		color: #4cd137;
 		transform: translateY(-1px);
+	}
+
+	/* Stack info boxes vertically on very small screens */
+	@media(max-width: 480px) {
+		.info-box {
+			width: 100%;
+		}
 	}
 
 	.contact-form form {
@@ -186,8 +200,25 @@
 		transform: translateY(-2px);
 	}
 
-	.success-msg {
-		color: #4cd137;
+	/* Success popup */
+	.success-popup {
+		position: fixed;
+		top: 20px;
+		left: 50%;
+		background: #4cd137;
+		color: #1a1625;
+		padding: 12px 20px;
+		border-radius: 8px;
+		box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
 		font-weight: bold;
+		z-index: 1000;
+		animation: popupFade 0.3s ease;
+		transform: translateX(-50%);
+
 	}
+
+	@keyframes popupFade {
+	from { opacity: 0; transform: translate(-50%, -10px); } /* include X offset */
+	to { opacity: 1; transform: translateX(-50%) translateY(0); } /* keep centered */
+}
 </style>
