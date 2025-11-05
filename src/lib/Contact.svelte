@@ -5,15 +5,27 @@
 	let success = false;
 
 	function handleSubmit() {
-		console.log({ name, email, message });
-		success = true;
 
-		name = '';
-		email = '';
-		message = '';
+    const fd = new FormData();
+    fd.append("entry.2005620554", name);
+    fd.append("entry.1045781291", email);
+    fd.append("entry.839337160", message);
 
-		setTimeout(() => (success = false), 3000);
-	}
+    // Send form data like the HTML hidden iframe method
+    fetch("https://docs.google.com/forms/d/e/1FAIpQLSdES05W9MnCSeDokJuo8NRidmbuJKRJZEnxaI3DBNnOq2rO8g/formResponse", {
+      method: "POST",
+      mode: "no-cors",
+      body: fd
+    }).then(() => {
+      // Show success popup
+      success = true;
+      name = '';
+      email = '';
+      message = '';
+      setTimeout(() => success = false, 3000);
+    }).catch(err => console.error("Submit error:", err));
+  }
+
 </script>
 
 <section class="contact-section">
@@ -50,16 +62,22 @@
 	<!-- Right side: Contact form -->
 	<div class="contact-form">
 		<h2>Send me a message</h2>
-		<form on:submit|preventDefault={handleSubmit}>
-			<input type="text" placeholder="Your Name" bind:value={name} required />
-			<input type="email" placeholder="Your Email" bind:value={email} required />
-			<textarea placeholder="Your Message" bind:value={message} required></textarea>
+		<form
+			action="https://docs.google.com/forms/d/e/1FAIpQLSdES05W9MnCSeDokJuo8NRidmbuJKRJZEnxaI3DBNnOq2rO8g/formResponse"
+			method="POST"
+			target="hidden_iframe"
+			on:submit={handleSubmit}
+			>
+			<input type="text" name="entry.2005620554" placeholder="Your Name" required />
+			<input type="email" name="entry.1045781291" placeholder="Your Email" required />
+			<textarea name="entry.839337160" placeholder="Your Message" required></textarea>
 			<button type="submit">Send</button>
 		</form>
+		<iframe title="hidden_iframe" name="hidden_iframe" style="display:none;"></iframe>
 
 		{#if success}
 			<div class="success-popup">
-				<p>Message sent! I’ll get back to you soon.</p>
+				<p>Message sent! I'll get back to you soon.</p>
 			</div>
 		{/if}
 	</div>
@@ -72,13 +90,13 @@
 		gap: 2rem;
 		padding: 2rem;
 		background: #1a1625;
-		border: 2px solid rgba(255,255,255,0.08);
+		border: 2px solid rgba(255, 255, 255, 0.08);
 		box-shadow: 4px 4px 0 #000;
 		border-radius: 12px;
 		box-sizing: border-box;
 	}
 
-	@media(min-width: 768px) {
+	@media (min-width: 768px) {
 		.contact-section {
 			flex-direction: row;
 		}
@@ -103,12 +121,13 @@
 		gap: 0.75rem;
 		margin-bottom: 1rem;
 	}
+
 	.socials-line a {
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		background: #2b2440;
-		border: 2px solid rgba(255,255,255,0.08);
+		border: 2px solid rgba(255, 255, 255, 0.08);
 		box-shadow: 3px 3px 0 #000;
 		color: #e6f3ff;
 		width: 36px;
@@ -118,6 +137,7 @@
 		transition: transform 0.15s, background 0.15s;
 		border-radius: 6px;
 	}
+
 	.socials-line a:hover {
 		background: #333051;
 		transform: translateY(-2px);
@@ -132,12 +152,12 @@
 	}
 
 	.info-box {
-		flex: 1 1 45%; /* ensure equal width */
+		flex: 1 1 45%;
 		display: flex;
-		flex-direction: column; /* stack text inside */
+		flex-direction: column;
 		gap: 4px;
 		background: #2b2440;
-		border: 2px solid rgba(255,255,255,0.08);
+		border: 2px solid rgba(255, 255, 255, 0.08);
 		box-shadow: 3px 3px 0 #000;
 		padding: 16px;
 		border-radius: 6px;
@@ -150,13 +170,14 @@
 		text-decoration: none;
 		transition: transform 0.15s, color 0.15s;
 	}
+
 	.info-box a:hover {
 		color: #4fc3f7;
 		transform: translateY(-1px);
 	}
 
 	/* Stack info boxes vertically on very small screens */
-	@media(max-width: 480px) {
+	@media (max-width: 480px) {
 		.info-box {
 			width: 100%;
 		}
@@ -171,7 +192,7 @@
 	.contact-form input,
 	.contact-form textarea {
 		background: #2b2440;
-		border: 2px solid rgba(255,255,255,0.08);
+		border: 2px solid rgba(255, 255, 255, 0.08);
 		box-shadow: 3px 3px 0 #000;
 		color: #e6f3ff;
 		font-size: 10px;
@@ -186,7 +207,7 @@
 
 	.contact-form button {
 		background: #2b2440;
-		border: 2px solid rgba(255,255,255,0.08);
+		border: 2px solid rgba(255, 255, 255, 0.08);
 		box-shadow: 3px 3px 0 #000;
 		color: #e6f3ff;
 		font-size: 10px;
@@ -195,6 +216,7 @@
 		transition: transform 0.15s, background 0.15s;
 		border-radius: 6px;
 	}
+
 	.contact-form button:hover {
 		background: #333051;
 		transform: translateY(-2px);
@@ -209,16 +231,21 @@
 		color: #1a1625;
 		padding: 12px 20px;
 		border-radius: 8px;
-		box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+		box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
 		font-weight: bold;
 		z-index: 1000;
 		animation: popupFade 0.3s ease;
 		transform: translateX(-50%);
-
 	}
 
 	@keyframes popupFade {
-	from { opacity: 0; transform: translate(-50%, -10px); } /* include X offset */
-	to { opacity: 1; transform: translateX(-50%) translateY(0); } /* keep centered */
-}
+		from {
+			opacity: 0;
+			transform: translate(-50%, -10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateX(-50%) translateY(0);
+		}
+	}
 </style>
