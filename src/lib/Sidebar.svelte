@@ -16,8 +16,7 @@
 	aria-label="Toggle menu"
 	aria-expanded={isOpen}
 	type="button"
->
-	☰
+><i class="cil-menu" aria-hidden="true"></i>
 </button>
 
 <aside class="sidebar" class:open={isOpen}>
@@ -43,7 +42,7 @@
 		</a>
 	</div>
 
-	<a href="/resume.pdf" download class="resume-btn">Download Resume</a>
+	<a href="/assets/resume.pdf" target="_blank" class="resume-btn">Download Resume</a>
 
 	<nav>
 		<a href="#about" class="nav-link" on:click={closeSidebar}>About</a>
