@@ -2,6 +2,7 @@
   import Sidebar from './lib/Sidebar.svelte';
   import Contact from './lib/Contact.svelte';
   import About from './lib/About.svelte';
+  import Skills from './lib/Skills.svelte';
 </script>
 
 <div class="hbox-container">
@@ -11,9 +12,15 @@
     <div class="card">
       <About />
     </div>
+
+    <div class="card">
+      <Skills/>
+    </div>
+
     <div class="card">
       <Contact />
     </div>
+    
   </div>
 </div>
 
