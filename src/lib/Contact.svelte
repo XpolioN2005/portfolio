@@ -3,30 +3,37 @@
 	let email = '';
 	let message = '';
 	let success = false;
+	let error = '';
 
-	function handleSubmit() {
+	async function handleSubmit(e) {
+		e.preventDefault();
+		success = false;
+		error = '';
 
-    const fd = new FormData();
-    fd.append("entry.2005620554", name);
-    fd.append("entry.1045781291", email);
-    fd.append("entry.839337160", message);
+		try {
+			const res = await fetch('/.netlify/functions/send', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					name,
+					message: `${message}\n\nEmail: ${email}`,
+				}),
+			});
 
-    // Send form data like the HTML hidden iframe method
-    fetch("https://docs.google.com/forms/d/e/1FAIpQLSdES05W9MnCSeDokJuo8NRidmbuJKRJZEnxaI3DBNnOq2rO8g/formResponse", {
-      method: "POST",
-      mode: "no-cors",
-      body: fd
-    }).then(() => {
-      // Show success popup
-      success = true;
-      name = '';
-      email = '';
-      message = '';
-      setTimeout(() => success = false, 3000);
-    }).catch(err => console.error("Submit error:", err));
-  }
+			if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
+			success = true;
+			name = '';
+			email = '';
+			message = '';
+			setTimeout(() => (success = false), 3000);
+		} catch (err) {
+			console.error('Submit error:', err);
+			error = 'Failed to send message.';
+		}
+	}
 </script>
+
 
 <section class="contact-section">
 	<!-- Left side: Social links + contact info -->
@@ -62,24 +69,25 @@
 	<!-- Right side: Contact form -->
 	<div class="contact-form">
 		<h2>Send me a message</h2>
-		<form
-			action="https://docs.google.com/forms/d/e/1FAIpQLSdES05W9MnCSeDokJuo8NRidmbuJKRJZEnxaI3DBNnOq2rO8g/formResponse"
-			method="POST"
-			target="hidden_iframe"
-			on:submit={handleSubmit}
-			>
-			<input type="text" name="entry.2005620554" placeholder="Your Name" required />
-			<input type="email" name="entry.1045781291" placeholder="Your Email" required />
-			<textarea name="entry.839337160" placeholder="Your Message" required></textarea>
+		<form on:submit={handleSubmit}>
+			<input type="text" bind:value={name} placeholder="Your Name" required />
+			<input type="email" bind:value={email} placeholder="Your Email" required />
+			<textarea bind:value={message} placeholder="Your Message" required></textarea>
 			<button type="submit">Send</button>
 		</form>
-		<iframe title="hidden_iframe" name="hidden_iframe" style="display:none;"></iframe>
 
 		{#if success}
 			<div class="success-popup">
 				<p>Message sent! I'll get back to you soon.</p>
 			</div>
 		{/if}
+
+		{#if error}
+			<div class="success-popup" style="background:#e84118">
+				<p>{error}</p>
+			</div>
+		{/if}
+
 	</div>
 </section>
 
