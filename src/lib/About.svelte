@@ -7,7 +7,7 @@
   <div class="section-title">{title}</div>
   <div class="section-content">
     <p>
-      Hello! I'm Darsan Ghosh (<a href="https://github.com/XpolioN" target="_blank" rel="noopener noreferrer">XpolioN</a>),
+      Hello! I'm Darsan Ghosh (<a href="https://github.com/XpolioN2005" target="_blank" rel="noopener noreferrer">XpolioN</a>),
       a B.Tech CSE student and developer. I focus on building efficient systems and interactive experiences that merge logic, design, and analytical thinking.
     </p>
 

@@ -46,6 +46,7 @@
 
 	<nav>
 		<a href="#about" class="nav-link" on:click={closeSidebar}>About</a>
+		<a href="#dashboard" class="nav-link" on:click={closeSidebar}>DashBoard</a>
 		<a href="#skills" class="nav-link" on:click={closeSidebar}>Skills</a>
 		<a href="#experience" class="nav-link" on:click={closeSidebar}>Experience</a>
 		<a href="#projects" class="nav-link" on:click={closeSidebar}>Projects</a>

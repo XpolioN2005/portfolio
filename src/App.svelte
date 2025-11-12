@@ -3,21 +3,27 @@
   import Contact from './lib/Contact.svelte';
   import About from './lib/About.svelte';
   import Skills from './lib/Skills.svelte';
+  import Projects from './lib/Projects.svelte';
 </script>
+
 
 <div class="hbox-container">
   <Sidebar /> <!-- fixed inside its component -->
 
   <div class="content-container">
-    <div class="card">
+    <div class="card" id="about">
       <About />
     </div>
 
-    <div class="card">
+    <div class="card" id="skills">
       <Skills/>
     </div>
 
-    <div class="card">
+    <div class="card" id="projects">
+      <Projects />
+    </div>
+
+    <div class="card" id="contact">
       <Contact />
     </div>
     
