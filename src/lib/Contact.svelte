@@ -1,39 +1,44 @@
 <script>
-	let name = '';
-	let email = '';
-	let message = '';
-	let success = false;
-	let error = '';
+  let name = '';
+  let email = '';
+  let message = '';
+  let success = false;
+  let error = '';
 
-	async function handleSubmit(e) {
-		e.preventDefault();
-		success = false;
-		error = '';
+  async function handleSubmit(e) {
+    e.preventDefault();
+    success = false;
+    error = '';
 
-		try {
-			const res = await fetch('/.netlify/functions/send', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
-					name,
-					message: `${message}\n\nEmail: ${email}`,
-				}),
-			});
+    if (!message || !email) {
+      error = 'Email and message are required.';
+      return;
+    }
 
-			if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    try {
+      const res = await fetch('/.netlify/functions/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          email,
+          message,
+        }),
+      });
 
-			success = true;
-			name = '';
-			email = '';
-			message = '';
-			setTimeout(() => (success = false), 3000);
-		} catch (err) {
-			console.error('Submit error:', err);
-			error = 'Failed to send message.';
-		}
-	}
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      success = true;
+      name = '';
+      email = '';
+      message = '';
+      setTimeout(() => (success = false), 3000);
+    } catch (err) {
+      console.error('Submit error:', err);
+      error = 'Failed to send message.';
+    }
+  }
 </script>
-
 
 <section class="contact-section">
 	<!-- Left side: Social links + contact info -->
