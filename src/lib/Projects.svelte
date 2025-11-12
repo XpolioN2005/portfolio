@@ -44,11 +44,13 @@
   });
 
   function onWheel(e) {
-    if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) {
-      track.scrollBy({ left: e.deltaY, behavior: 'auto' });
+    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
       e.preventDefault();
+      const speed = 2.5;
+      track.scrollBy({ left: e.deltaY * speed, behavior: 'smooth' });
     }
   }
+
 </script>
 
 <section class="section-container" aria-label="Projects Carousel">
@@ -62,7 +64,7 @@
     <div
       class="carousel-track"
       bind:this={track}
-      on:wheel|passive={onWheel}
+      on:wheel={onWheel}
       role="list"
       aria-label="Project carousel"
     >

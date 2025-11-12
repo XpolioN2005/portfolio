@@ -33,7 +33,7 @@
     border-radius: 12px;
     padding: 2rem;
     box-sizing: border-box;
-    max-width: 800px;
+    max-width: 1000px;
     margin: 1rem auto;
   }
 
