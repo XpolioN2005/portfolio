@@ -4,7 +4,10 @@
   let message = "";
   let success = false;
   let error = "";
-  const maxChars = 2000;
+
+  const maxName = 100;
+  const maxEmail = 100;
+  const maxMessage = 1500;
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -16,8 +19,18 @@
       return;
     }
 
-    if (message.length > maxChars) {
-      error = "Message exceeds the 2000 character limit.";
+    if (name.length > maxName) {
+      error = "Name exceeds the 100 character limit.";
+      return;
+    }
+
+    if (email.length > maxEmail) {
+      error = "Email exceeds the 100 character limit.";
+      return;
+    }
+
+    if (message.length > maxMessage) {
+      error = "Message exceeds the 1500 character limit.";
       return;
     }
 
@@ -25,11 +38,7 @@
       const res = await fetch("/.netlify/functions/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          email,
-          message
-        })
+        body: JSON.stringify({ name, email, message })
       });
 
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -78,17 +87,31 @@
     <h2>Send me a message</h2>
 
     <form on:submit={handleSubmit}>
-      <input type="text" bind:value={name} placeholder="Your Name" required />
-      <input type="email" bind:value={email} placeholder="Your Email" required />
+      <input
+        type="text"
+        bind:value={name}
+        placeholder="Your Name"
+        maxlength={maxName}
+        required
+      />
+      <div class="char-count">{name.length}/{maxName}</div>
+
+      <input
+        type="email"
+        bind:value={email}
+        placeholder="Your Email"
+        maxlength={maxEmail}
+        required
+      />
+      <div class="char-count">{email.length}/{maxEmail}</div>
 
       <textarea
         bind:value={message}
         placeholder="Your Message"
-        maxlength={maxChars}
+        maxlength={maxMessage}
         required
       ></textarea>
-
-      <div class="char-count">{message.length}/{maxChars}</div>
+      <div class="char-count">{message.length}/{maxMessage}</div>
 
       <button type="submit">Send</button>
     </form>
