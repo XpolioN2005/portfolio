@@ -7,7 +7,7 @@
 
   const maxName = 100;
   const maxEmail = 100;
-  const maxMessage = 1500;
+  const maxMessage = 1000;
 
   async function handleSubmit(e) {
     e.preventDefault();
